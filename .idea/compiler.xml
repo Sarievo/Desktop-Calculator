@@ -2,6 +2,12 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="17">
+      <module name="Desktop_Calculator.Desktop_Calculator-task-build-classes-java.main" target="11" />
+      <module name="Desktop_Calculator.Desktop_Calculator-task-build-generated-sources-annotationProcessor-java.main" target="11" />
+      <module name="Desktop_Calculator.Desktop_Calculator-task-build-generated-sources-headers-java.main" target="11" />
+      <module name="Desktop_Calculator.Desktop_Calculator-task-build-reports-tests.main" target="11" />
+      <module name="Desktop_Calculator.Desktop_Calculator-task-build-test-results.main" target="11" />
+      <module name="Desktop_Calculator.Desktop_Calculator-task-build-tmp.main" target="11" />
       <module name="Desktop_Calculator.Desktop_Calculator-task.main" target="11" />
       <module name="Desktop_Calculator.util.main" target="11" />
     </bytecodeTargetLevel>

@@ -1,13 +1,14 @@
 package calculator;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
 public class Notation {
-    BigInteger value;
+    BigDecimal value;
     char operator;
     boolean isVariable;
 
-    Notation(BigInteger value) {
+    Notation(BigDecimal value) {
         this.value = value;
         isVariable = true;
     }

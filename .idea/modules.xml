@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Desktop_Calculator.iml" filepath="$PROJECT_DIR$/.idea/modules/Desktop_Calculator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Desktop Calculator/task/Desktop_Calculator.Desktop_Calculator-task.iml" filepath="$PROJECT_DIR$/.idea/modules/Desktop Calculator/task/Desktop_Calculator.Desktop_Calculator-task.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Desktop Calculator/task/Desktop_Calculator.Desktop_Calculator-task.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Desktop Calculator/task/Desktop_Calculator.Desktop_Calculator-task.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Desktop Calculator/task/Desktop_Calculator.Desktop_Calculator-task.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Desktop Calculator/task/Desktop_Calculator.Desktop_Calculator-task.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/util/Desktop_Calculator.util.iml" filepath="$PROJECT_DIR$/.idea/modules/util/Desktop_Calculator.util.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/util/Desktop_Calculator.util.main.iml" filepath="$PROJECT_DIR$/.idea/modules/util/Desktop_Calculator.util.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/util/Desktop_Calculator.util.test.iml" filepath="$PROJECT_DIR$/.idea/modules/util/Desktop_Calculator.util.test.iml" />
+    </modules>
+  </component>
+</project>

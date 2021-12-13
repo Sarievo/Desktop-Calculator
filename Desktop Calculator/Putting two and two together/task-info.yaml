@@ -1,0 +1,100 @@
+type: edu
+files:
+- name: src/calculator/ApplicationRunner.java
+  visible: true
+  text: |
+    package calculator;
+
+    public class ApplicationRunner {
+        public static void main(String[] args) {
+            new Calculator();
+        }
+    }
+  learner_created: false
+- name: src/calculator/Calculator.java
+  visible: true
+  text: |
+    package calculator;
+
+    import javax.swing.*;
+
+    public class Calculator extends JFrame {
+
+        public Calculator() {
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            setSize(300, 400);
+            setLayout(null);
+            setVisible(true);
+        }
+    }
+  learner_created: false
+- name: test/CalculatorTest.java
+  visible: false
+  text: |
+    import calculator.Calculator;
+    import org.assertj.swing.fixture.JButtonFixture;
+    import org.assertj.swing.fixture.JTextComponentFixture;
+    import org.hyperskill.hstest.dynamic.DynamicTest;
+    import org.hyperskill.hstest.stage.SwingTest;
+    import org.hyperskill.hstest.testcase.CheckResult;
+    import org.hyperskill.hstest.testing.swing.SwingComponent;
+
+    import java.util.Random;
+
+
+    public class CalculatorTest extends SwingTest{
+        @SwingComponent(name = "Solve")
+        private JButtonFixture mSolveButton;
+
+        @SwingComponent(name = "EquationTextField")
+        private JTextComponentFixture mTextField;
+
+        public CalculatorTest() {
+            super(new Calculator());
+        }
+
+        @DynamicTest(feedback = "SolveButton should be enabled")
+        CheckResult test1() {
+            requireEnabled(mSolveButton);
+            return CheckResult.correct();
+        }
+
+        @DynamicTest(feedback = "TextField should be enabled")
+        CheckResult test2() {
+            requireEnabled(mTextField);
+            return CheckResult.correct();
+        }
+
+        @DynamicTest(feedback = "The result of the calculation your app shows is wrong")
+        CheckResult test3() {
+
+            Random rand = new Random();
+            for (int i = 0; i < 10; i++) {
+                int a = rand.nextInt(101);
+                int b = rand.nextInt(101);
+                int result = a + b;
+
+                String equation = a + "+" + b;
+
+                mTextField.setText(equation);
+                mSolveButton.click();
+                mTextField.requireText(equation + "=" + result);
+            }
+            return CheckResult.correct();
+        }
+
+
+    }
+  learner_created: false
+- name: src/calculator/CalculatorUtil.java
+  visible: true
+  learner_created: true
+- name: src/calculator/Notation.java
+  visible: true
+  learner_created: true
+feedback_link: https://hyperskill.org/projects/191/stages/953/implement#comment
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Mon, 13 Dec 2021 02:02:08 UTC
+record: -1

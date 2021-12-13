@@ -1,0 +1,60 @@
+<h5>Description</h5>
+
+<p>In the final stage, we will add more functions to our calculator. We have added the ability to evaluate expressions of variable length and operator precedence before. Now we will override the precedence using <strong>parentheses</strong>. We will also add <strong>the</strong> <strong>square root function</strong>,<strong> exponentiation </strong>(<code class="java">X</code> raised to the power of <code class="java">2</code> and <code class="java">X</code> raised to the power of <code class="java">Y</code>, where <code class="java">X</code> and <code class="java">Y</code> are real numbers), and, finally, <strong>negation</strong>.</p>
+
+<p>Let's cover them step by step. </p>
+
+<h5>Parentheses</h5>
+
+<p>Add a single <code class="java">JButton</code> that will insert both left <code class="java">(</code> and right <code class="java">)</code> parentheses. There are a few cases that determine which parenthesis is to be inserted. Insert a left parenthesis if the number of left parentheses is equal to the number of right parentheses in the expression. Insert a left parenthesis if the last character in the expression is another left bracket, or if the last character in the expression is an operator. Otherwise, insert a right parenthesis. The expression in the parentheses should be calculated first.</p>
+
+<h5>Square Root</h5>
+
+<p>Add a new <code class="java">JButton</code> for the square root function. When the square root button is clicked, insert a radical symbol <strong><code class="java"><span class="math-tex">\(√\)</span></code></strong> followed by a left parenthesis. The result of the expression in the parentheses will be used as input to the square root function.</p>
+
+<p>The Unicode for the square root symbol is <code class="java">\u221A</code>.</p>
+
+<h5>Exponentiation</h5>
+
+<p>Add a <code class="java">JButton</code> for the <strong>Raise to 2 </strong>function and another <code class="java">JButton</code> for the <strong>Raise to Y</strong> function. A click on the Raise to 2 button inserts <code class="java">^</code> as an operator followed by <code class="java">(2)</code>, so the number on the left side of the operator is raised to the power of 2. Similarly, a click on the Raise to Y button inserts a power operator <code class="java">^</code> followed by a left parenthesis to allow for any real number or expression, which serves as input.</p>
+
+<h5>Negation</h5>
+
+<p>Add a <code class="java">JButton</code> to negate a number or an expression. A click on this button inserts a left parenthesis followed by the subtract symbol <code class="java">(-</code> that will negate any number that comes after it. Note that clicking on this button should consecutively undo the negation. For instance, if the expression is empty, the first click on this button inserts <code class="java">(-</code>. The second click removes <code class="java">(-</code> from the expression. We know that having <code class="java">(-</code> before a number negates it, but what about negating a full expression? To do it, we need to have <code class="java">(-</code> and an expression in another pair of parentheses. For instance, the negative version of <code class="java">2+4-7</code> is <code class="java">(-(2+4-7))</code>.</p>
+
+<p>The guidelines for validating and formatting input established in the previous stage still hold true, except for two things. Square root can start an expression, and you cannot get a negative number by squaring since a square is either positive or <code class="java">0</code>.</p>
+
+<h5>Objectives</h5>
+
+<p>In this stage, you should: </p>
+
+<ol>
+    <li>Add a <code class="java">JButton</code> for handling left and right parentheses;</li>
+    <li>Add a <code class="java">JButton</code> for the square root function;</li>
+    <li>Add a <code class="java">JButton</code> for the Raise to 2 function;</li>
+    <li>Add a <code class="java">JButton</code> for the Raise to Y function;</li>
+    <li>Add a <code class="java">JButton</code> for negating a number or an expression.</li>
+    <li>Maintain the names of the interface components (<code class="java">JLabels</code> and <code class="java">JButtons</code>) from the previous stage. For new elements, set the following names:</li>
+</ol>
+
+<ul>
+    <li><code class="java">JButton</code> as <code class="java">Parentheses</code>;</li>
+    <li><code class="java">JButton</code> as <code class="java">SquareRoot</code>;</li>
+    <li><code class="java">JButton</code> as <code class="java">PowerTwo</code>;</li>
+    <li><code class="java">JButton</code> as <code class="java">PowerY</code>;</li>
+    <li><code class="java">JButton</code> as <code class="java">PlusMinus</code>.</li>
+</ul>
+
+<h5>Examples</h5>
+
+<p><em>Here is an example of how your calculator can look like:</em></p>
+
+<p><img alt="" src="https://ucarecdn.com/b73c5784-46bd-454a-b183-e62ec01b19f3/-/crop/331x590/543,96/-/preview/"></p>
+
+<p> </p>
+
+<p><img alt="" src="https://ucarecdn.com/81fc157e-4362-4486-8909-76df605c3c00/-/crop/329x587/541,96/-/preview/"></p>
+
+<p> </p>
+
+<p><img alt="" src="https://ucarecdn.com/58f28c1f-1bb9-4986-b54e-dab68dd77f36/-/crop/333x588/688,98/-/preview/"></p>

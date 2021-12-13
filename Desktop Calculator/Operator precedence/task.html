@@ -1,0 +1,49 @@
+<h5>Description</h5>
+
+<p>So far, our calculator can perform four basic operations with two numbers. We can do better. In this stage, we will improve our calculator so that it will be able to perform different operations on different sets of numbers. We will also work on the design of our calculator. As of now, it displays the equation and the result in a single <code class="java">JTextField</code>. We will replace it with two <code class="java">JLabels</code>.</p>
+
+<p>Let's talk briefly about the operator precedence. In math, some operators have a higher weight than others. As you probably remember, <strong>division </strong>and <strong>multiplication </strong>have higher precedence than <strong>addition </strong>and <strong>subtraction</strong>. If an equation has two or more operators with equal precedence, they are executed from <strong>left to right</strong>. Take for example the equation <code class="java">5+4-3x2/1</code>. We get =&gt; <code class="java">5+4-6/1</code> =&gt; <code class="java">5+4-6</code> =&gt; <code class="java">9-6</code> == <code class="java">3</code>. We know that multiplication and division have equal precedence, but multiplication was executed first, as it was the first in the equation. Then, we divide, add and, finally, subtract. We need to account for this in our app.</p>
+
+<p>To evaluate each expression, you may need to convert it from <strong>infix </strong>notation to <strong>postfix </strong>notation. Infix notation is how we usually take down expressions. Each operator follows an operand. The expressions above can serve as examples of infix notation. Another type of notation is postfix. In this case, operators are followed by operands. For example, the postfix notation of the expression <code class="java">5+4-3</code> is <code class="java">5 4 3 + -</code>. You can take a look at the GeeksforGeeks <a target="_blank" href="https://www.geeksforgeeks.org/arithmetic-expression-evalution/" rel="noopener noreferrer nofollow">article</a> for details about the expression evaluation.</p>
+
+<p>Replace the <code class="java">JTextField</code> with two <code class="java">JLabels</code>, one for storing the equation and one for displaying the result. Also, add three new <code class="java">JButtons</code>, a decimal button that places a decimal point in a <code class="java">JLabel</code> equation, a CLEAR button that clears all characters, and a delete button. </p>
+
+<p>For testing reasons, use the Unicode format for operators:</p>
+
+<p>Addition — <code class="java">\u002B</code><br>
+    Subtraction — <code class="java">\u2212</code><br>
+    Multiplication — <code class="java">\u00D7</code><br>
+    Division — <code class="java">\u00F7</code></p>
+
+<h5>Objectives</h5>
+
+<p>In this stage, you should: </p>
+
+<ol>
+    <li>Add two <code class="java">JLabels</code> — one for storing an equation, the other for displaying the result;</li>
+    <li>Add a <code class="java">JButton</code> for inserting a decimal point <code class="java">.</code>;</li>
+    <li>Add a <code class="java">JButton</code> for clearing an equation;</li>
+    <li>Add a <code class="java">JButton</code> for deleting the last character in an equation;</li>
+    <li>Set the names for the following components:</li>
+</ol>
+
+<ul>
+    <li><code class="java">JLabel</code> as <code class="java">EquationLabel</code>;</li>
+    <li><code class="java">JLabel</code> as <code class="java">ResultLabel</code>;</li>
+    <li>10 <code class="java">JButtons</code> for numbers from <code class="java">Zero</code> to <code class="java">Nine</code>;</li>
+    <li>4 <code class="java">JButtons</code> as <code class="java">Add</code>, <code class="java">Subtract</code>, <code class="java">Divide</code>, <code class="java">Multiply</code>;</li>
+    <li><code class="java">JButton</code> as <code class="java">Equals</code>;</li>
+    <li><code class="java">JButton</code> as <code class="java">Clear</code>;</li>
+    <li><code class="java">JButton</code> as <code class="java">Delete</code>;</li>
+    <li><code class="java">JButton</code> as <code class="java">Dot</code>;</li>
+</ul>
+
+<h5>Examples</h5>
+
+<p><em>Here is an example of how your calculator can look like:</em></p>
+
+<p><img alt="" src="https://ucarecdn.com/cd55aea1-1493-4383-ba83-a694a4908a12/-/crop/329x489/505,226/-/preview/"></p>
+
+<p> </p>
+
+<p><img alt="" src="https://ucarecdn.com/b2220bb8-c3b2-4fb9-9438-e83f49fc6090/-/crop/329x491/9,3/-/preview/"></p>

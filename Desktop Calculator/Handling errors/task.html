@@ -1,0 +1,42 @@
+<h5>Description</h5>
+
+<p>Every interactive piece of software must have some form of <strong>input validation </strong>and <strong>error handling </strong>to maintain a proper user experience and prevent crashes. In this stage, we are going to handle errors and validate user input and equations.</p>
+
+<p>There's one thing in our program that can hamper its execution. It is a user-provided equation. Let's establish a set of guidelines for our program.</p>
+
+<ol>
+    <li>An equation cannot begin with an operator (<code class="java">+</code>, <code class="java">/</code>, and so on);</li>
+    <li>An equation cannot end with an operator;</li>
+    <li>An operator cannot directly follow another operator (for example, <code class="java">2+-3</code>);</li>
+    <li>Division by zero is forbidden.</li>
+</ol>
+
+<p>The cases described above should be handled in the following way:</p>
+
+<ol>
+    <li>No character should be added to the <code class="java">EquationLabel</code> if users try to enter an operator as the first character;</li>
+    <li>Provide visual feedback to users if the equation ends with an operator. Change the font color of the <code class="java">EquationLabel</code> with the help of <code class="java">Colors.RED.darker()</code> after the <code class="java">Equals</code> button has been clicked;</li>
+    <li>If two operators are inserted consecutively, then the second operator should replace the first;</li>
+    <li>Similar to the second case, once the <code class="java">Equals</code> button has been clicked, change the color of the <code class="java">EquationLabel</code> if the equation contains division by zero. </li>
+</ol>
+
+<p> </p>
+
+<h5>Objectives</h5>
+
+<p>In this stage, you should: </p>
+
+<ol>
+    <li>Properly format and validate input expressions;</li>
+    <li>Maintain the names of the interface components (<code class="java">JLabels</code> and <code class="java">JButtons</code>) from the previous stage.</li>
+</ol>
+
+<h5>Examples</h5>
+
+<p><em>Here is an example of how your calculator can look like:</em></p>
+
+<p><img alt="" src="https://ucarecdn.com/06238e3e-a054-4cd9-b16b-506fdb42059f/-/crop/331x491/480,217/-/preview/"></p>
+
+<p> </p>
+
+<p><img alt="" src="https://ucarecdn.com/1ec11fe8-c70f-44c5-a07c-589de7ee662e/-/crop/331x489/478,217/-/preview/"></p>

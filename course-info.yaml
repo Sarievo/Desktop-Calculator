@@ -1,0 +1,13 @@
+type: hyperskill
+title: Desktop Calculator
+language: English
+summary: We do calculations daily. You may need to know how much change you'll have
+  after purchase or how many points your team needs to win the cup. A calculator can
+  do the heavy lifting for us. Have you ever wonder how a calculator works? In this
+  project, you'll create a full-fledged calculator from scratch that can be run on
+  your computer.<br/><br/>Learn more at <a href="https://hyperskill.org/projects/191?utm_source=ide&utm_medium=ide&utm_campaign=ide&utm_content=project-card">https://hyperskill.org/projects/191</a>
+programming_language: Java
+programming_language_version: 11
+content:
+- Desktop Calculator
+mode: Study

@@ -1,3 +1,3 @@
 # Desktop-Calculator
 Desktop Calculator (GUI).
-![cal-img](cal-img.png)
+![cal-img](screenshot.png)

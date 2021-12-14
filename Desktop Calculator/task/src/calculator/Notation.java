@@ -1,7 +1,6 @@
 package calculator;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
 public class Notation {
     BigDecimal value;

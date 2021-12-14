@@ -1,6 +1,9 @@
 package calculator;
 
+import javax.swing.*;
+import java.awt.*;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,25 +14,15 @@ import java.util.regex.Pattern;
 
 public class CalculatorUtil {
     static HashMap<Character, Integer> precedence = new HashMap<>();
-    static String numberRegex = "\\d+(\\.\\d+)?"; // no direct negative number
-//    static Pattern numberPattern = Pattern.compile(numberRegex);
-    static String operatorRegex = "[-\u002B\u00D7\u00F7]";
-//    static Pattern operatorPattern = Pattern.compile(operatorRegex);
+    static String numberRegex = "(?<=[^\\d)])(?>-\\d+(\\.\\d+)?)|\\d+(?>\\.\\d+)?"; // no direct negative number
+    static String operatorRegex = "[=()^\u002B\u00D7\u00F7\u221A-]";
     static Pattern notationPattern = Pattern.compile(numberRegex + "|" + operatorRegex);
-    //    static String numberRegex = "-?\\d+";
-    //    static String latinRegex = "[a-wyzA-WYZ]+"; // no x allowed
-    //    static String latinRegex = "[a-zA-Z]+";
-    //    static Pattern latinPattern = Pattern.compile(latinRegex);
-//    static HashMap<String, BigDecimal> variables = new HashMap<>();
-//    static String variableRegex = numberRegex + "|" + latinRegex;
-
-//    static String[] errMsg = {
-//            "Invalid expression", "Unknown command", "Invalid assignment", "Unknown variable"
-//    };
 
     static void initPrecedence() {
-//        precedence.put('(', 1);
-//        precedence.put(')', 1); // Parentheses
+        precedence.put('(', 0);
+        precedence.put(')', 0);
+        precedence.put('^', 1); // Exponentiation
+        precedence.put('\u221A', 1);
         precedence.put('\u00D7', 2); // Multiplication
         precedence.put('\u00F7', 2); // Division
         precedence.put('\u002B', 3); // Addition
@@ -46,24 +39,17 @@ public class CalculatorUtil {
         Matcher notationMatcher = notationPattern.matcher(s);
         while (notationMatcher.find()) {
             String notation = notationMatcher.group();
-            if (notation.matches(numberRegex)) { // if it's a variable, append its value
-//                if (variables.containsKey(notation)) {
-//                    matchList.add(new Notation(variables.get(notation)));
-//                } else {
-                    matchList.add(new Notation(new BigDecimal(notation)));
-//                }
-            } else { // if it's an operator, append its symbol
-                if (notation.charAt(0) == '\u2212' && notation.length() % 2 == 0) {
-                    matchList.add(new Notation('\u002B')); // if it's some even minus, append plus
-                } else {
-                    matchList.add(new Notation(notation.charAt(0)));
-                }
+            if (notation.matches(operatorRegex)) {
+                matchList.add(new Notation(notation.charAt(0)));  // if it's an operator, append its symbol
+            } else {
+                matchList.add(new Notation(new BigDecimal(notation))); // if it's a variable, append its value
             }
         }
         return matchList;
     }
 
     static List<Notation> convertPostfix(List<Notation> infix) {
+        System.out.print(infix);
         List<Notation> postfix = new ArrayList<>();
         Stack<Character> stack = new Stack<>();
 
@@ -73,18 +59,18 @@ public class CalculatorUtil {
                 postfix.add(symbol); // 1. Add operands (numbers and variables) to the result (postfix notation) as they arrive.
             } else {
                 char operator = symbol.operator; // then it's an operator
+                if (operator == ')') { // 6. If the incoming element is a right parenthesis, pop the stack and add operators to the result until you see a left parenthesis.
+                    while (stack.peek() != '(') {
+                        postfix.add(new Notation(stack.pop()));
+                    }
+                    stack.pop(); // Discard the pair of parentheses.
+                    continue;
+                }
+
                 if (stack.isEmpty() || stack.peek() == '(' || operator == '(') { // 5. If the incoming element is a left parenthesis, push it on the stack.
                     stack.push(operator); // 2. If the stack is empty or contains a left parenthesis on top, push the incoming operator on the stack.
                     continue;
                 }
-//
-//                if (operator == ')') { // 6. If the incoming element is a right parenthesis, pop the stack and add operators to the result until you see a left parenthesis.
-//                    while (stack.peek() != '(') {
-//                        postfix.add(new Notation(stack.pop()));
-//                    }
-//                    stack.pop(); // Discard the pair of parentheses.
-//                    continue;
-//                }
 
                 if (precedence.get(operator) < precedence.get(stack.peek())) {
                     stack.push(operator); // 3. If the incoming operator has higher precedence than the top of the stack, push it on the stack.
@@ -92,8 +78,8 @@ public class CalculatorUtil {
                     do {
                         postfix.add(new Notation(stack.pop())); // 4. If the incoming operator has lower or equal precedence than the top of the operator stack, pop the stack and add operators to the result until you see an operator that has a smaller precedence or a left parenthesis on the top of the stack;
                     } while (!stack.isEmpty()
-                            && precedence.get(operator) >= precedence.get(stack.peek()));
-//                            && stack.peek() != '(');
+                            && precedence.get(operator) >= precedence.get(stack.peek())
+                            && stack.peek() != '(');
                     stack.push(operator); // then add the incoming operator to the stack.
                 }
             }
@@ -103,6 +89,7 @@ public class CalculatorUtil {
 //            System.out.println(stack);
             postfix.add(new Notation(stack.pop()));
         }
+        System.out.print(" -> " + postfix + "\n");
         return postfix;
     }
 
@@ -116,6 +103,10 @@ public class CalculatorUtil {
             } else {
                 char operator = element.operator;
                 BigDecimal a = result.pop();
+                if (operator == '\u221A') {
+                    result.push(a.sqrt(new MathContext(0)));
+                    continue;
+                }
                 BigDecimal b = result.pop();
                 switch (operator) {
                     case '\u00D7':
@@ -138,6 +129,9 @@ public class CalculatorUtil {
                     case '-':
                         result.push(b.subtract(a));
                         break;
+                    case '^':
+                        result.push(b.pow(Integer.parseInt(a.toPlainString())));
+                        break;
                 }
             }
         }
@@ -148,75 +142,144 @@ public class CalculatorUtil {
         return result.pop();
     }
 
-//    static List<String> scanNames(String s) {
-//        // only scan names
-//        List<String> matchList = new ArrayList<>();
-//        Matcher regexMatcher = latinPattern.matcher(s);
-//        while (regexMatcher.find()) {
-//            matchList.add(regexMatcher.group());
-//        }
-//        return matchList;
-//    }
+    static boolean validate(JLabel equationLabel) {
+        String equation = equationLabel.getText();
+        if (equation.isEmpty()) {
+            return false;
+        }
+        String lastChar = equation.substring(equation.length() - 1);
+        if (lastChar.equals(".")) {
+            equationLabel.setText(equation + "0");
+        } else if (lastChar.matches(operatorRegex) && !")".equals(lastChar)) {
+            delete(equationLabel);
+        }
+        return true;
+    }
 
-//    static List<BigDecimal> scanNumbers(String s) {
-//        // only scan numbers
-//        List<BigDecimal> matchList = new ArrayList<>();
-//        Matcher regexMatcher = numberPattern.matcher(s);
-//        while (regexMatcher.find()) {
-//            matchList.add(new BigDecimal(regexMatcher.group()));
-//        }
-//        return matchList;
-//    }
-//
-//    static List<Character> scanOperators(String s) {
-//        // only scan operator symbols
-//        List<Character> matchList = new ArrayList<>();
-//        Matcher regexMatcher = operatorPattern.matcher(s);
-//        while (regexMatcher.find()) {
-//            matchList.add(regexMatcher.group().charAt(0)); // if it's any notation just add at this step
-//        }
-//        return matchList;
-//    }
+    public static void assignSubtract(JLabel equationLabel) {
+        if (validate(equationLabel)) equationLabel.setText(equationLabel.getText() + "-");
+    }
 
-//    static boolean checkValidityOrAssign(String raw) {
-//        List<String> names = scanNames(raw);
-//        List<BigDecimal> numbers = scanNumbers(raw);
-//        List<Character> assignsOrOperators = scanOperators(raw);
-//
-//        if(raw.isEmpty()) return false;
-//        if (names.isEmpty()) { // if no variables
-//            if (!assignsOrOperators.isEmpty()) {
-//                for (char operator : assignsOrOperators) {
-//                    if (operator == '=') {
-////                        err(2); // err if it has an assign pattern
-//                        return false;
-//                    }
-//                }
-//            }
-//        } else { // if it has variables
-//            if (!assignsOrOperators.isEmpty() && assignsOrOperators.get(0) == '=') { // if it has an assign pattern
-//                if (names.size() + numbers.size() != 2) {
-////                    err(2); // err if it has not equal to 1 assign pattern
-//                    return false;
-//                } else if (numbers.size() != 0) {
-//                    variables.put(names.get(0), numbers.get(0)); // assign number to variable
-//                } else {
-//                    if (!variables.containsKey(names.get(1))) {
-////                        err(3); // err if the second variable is unknown
-//                        return false;
-//                    }
-//                    variables.put(names.get(0), variables.get(names.get(1))); // assign variable to variable
-//                }
-//                return false;
-//            } else {
-//                for (String name : names) {
-//                    if (!variables.containsKey(name)) {
-////                        err(3); // err if it has unknown variables
-//                        return false;
-//                    }
-//                }
-//            }
-//        }
-//        return true; // return true if it is a valid non-assign infix notation
-//    }
+    public static void assignAdd(JLabel equationLabel) {
+        if (validate(equationLabel)) equationLabel.setText(equationLabel.getText() + "\u002B");
+    }
+
+    public static void assignMultiply(JLabel equationLabel) {
+        if (validate(equationLabel)) equationLabel.setText(equationLabel.getText() + "\u00D7");
+    }
+
+    public static void assignDivide(JLabel equationLabel) {
+        if (validate(equationLabel)) equationLabel.setText(equationLabel.getText() + "\u00F7");
+    }
+
+    public static void assignDot(JLabel equationLabel) {
+        String equation = equationLabel.getText();
+        if (!equation.isEmpty()) {
+            String lastChar = equation.substring(equation.length() - 1);
+            if (".".equals(lastChar) || lastChar.matches(operatorRegex)) return;
+        }
+        equationLabel.setText(equation + ".");
+    }
+
+    public static void evaluate(JLabel equationLabel, JLabel resultLabel) {
+        if (!equationLabel.getText().isEmpty()) {
+            String equation = equationLabel.getText();
+            String lastChar = equation.substring(equation.length() - 1);
+            if (lastChar.matches(operatorRegex) && !")".equals(lastChar)) {
+                equationLabel.setForeground(Color.RED.darker());
+            } else {
+                try {
+                    String result = CalculatorUtil.calculate(equationLabel.getText());
+                    if (result.length() >= 16) {
+                        resultLabel.setFont(resultLabel.getFont().deriveFont(15f));
+                    } else if (result.length() >= 12) {
+                        resultLabel.setFont(resultLabel.getFont().deriveFont(21f));
+                    } else {
+                        resultLabel.setFont(resultLabel.getFont().deriveFont(30f));
+                    }
+                    resultLabel.setText(result);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    equationLabel.setForeground(Color.RED.darker());
+                }
+            }
+        }
+    }
+
+    public static void assignNumber(JLabel equationLabel, int i) {
+        equationLabel.setForeground(Color.MAGENTA);
+        String equation = equationLabel.getText();
+        if (equation.equals(".")) {
+            equationLabel.setText("0.");
+        }
+        equationLabel.setText(equationLabel.getText() + i);
+    }
+
+    public static void delete(JLabel equationLabel) {
+        equationLabel.setForeground(Color.MAGENTA);
+        String data = equationLabel.getText();
+        equationLabel.setText(data.substring(0, data.length() - 1));
+    }
+
+    public static void insertParentheses(JLabel equationLabel) {
+        String raw = equationLabel.getText();
+        int l_parentheses = 0;
+        int r_parentheses = 0;
+        for (char c : raw.toCharArray()) {
+            if (c == '(') {
+                l_parentheses++;
+            } else if (c == ')') {
+                r_parentheses++;
+            }
+        }
+        if (l_parentheses == r_parentheses) {
+            equationLabel.setText(raw + '(');
+            return;
+        }
+
+        String lastChar = raw.substring(raw.length() - 1);
+        if (lastChar.matches(operatorRegex) && !")".equals(lastChar)
+                || "(".equals(lastChar)) {
+            equationLabel.setText(raw + '(');
+            return;
+        }
+
+        equationLabel.setText(raw + ')');
+    }
+
+    public static void insertSqrt(JLabel equationLabel) {
+        String raw = equationLabel.getText();
+        equationLabel.setText(raw + "\u221A(");
+    }
+
+    public static void raiseToY(JLabel equationLabel) {
+        String raw = equationLabel.getText();
+        equationLabel.setText(raw + "^(");
+    }
+
+    public static void raiseTo2(JLabel equationLabel) {
+        String raw = equationLabel.getText();
+        equationLabel.setText(raw + "^(2)");
+    }
+
+    public static void negate(JLabel equationLabel) {
+        String raw = equationLabel.getText();
+
+        if (raw.isEmpty()) {
+            equationLabel.setText("(-");
+        } else if (raw.equals("(-")) { // negating negations
+            equationLabel.setText("");
+        } else if (raw.length() >= 5
+                && "(-(".equals(raw.substring(0, 3))
+                && "))".equals(raw.substring(raw.length() - 2))) {
+            equationLabel.setText(raw.substring(3, raw.length() - 2));
+        } else if (raw.length() == 3
+                && "(-".equals(raw.substring(0, 2))) {
+            equationLabel.setText(raw.substring(2));
+        } else if (raw.matches(numberRegex)) {
+            equationLabel.setText("(-" + raw);
+        } else {
+            equationLabel.setText("(-(" + raw + "))");
+        }
+    }
 }
